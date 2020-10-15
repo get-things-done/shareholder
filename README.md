@@ -55,7 +55,7 @@ app(\GetThingsDone\Shareholder\ShareTranfer::class)
     ->transfer();
 
 //Retrieve shareholder's current quantity
-\GetThingsDone\Shareholder\SharePrice::of($shareholder)->current();
+\GetThingsDone\Shareholder\ShareQuantity::of($shareholder)->current();
 ```
 
 ## Testing

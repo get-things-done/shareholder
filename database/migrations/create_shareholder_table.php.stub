@@ -8,11 +8,17 @@ class CreateShareholderTable extends Migration
 {
     public function up()
     {
-        Schema::create('shareholder_table', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('shareholders', function (Blueprint $table) {
+            $table->id();
 
             // add fields
 
+            $table->timestamps();
+        });
+
+        Schema::create('share_price_records', function (Blueprint $table) {
+            $table->id();        
+            $table->bigInteger('value');
             $table->timestamps();
         });
     }

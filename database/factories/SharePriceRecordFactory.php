@@ -3,17 +3,18 @@
 namespace GetThingsDone\Shareholder\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use GetThingsDone\Shareholder\Models\SharePriceRecord;
 
-/*
-class ModelFactory extends Factory
+
+class SharePriceRecordFactory extends Factory
 {
-    protected $model = YourModel::class;
+    protected $model = SharePriceRecord::class;
 
     public function definition()
     {
         return [
-
+            'value' => rand()
         ];
     }
 }
-*/
+

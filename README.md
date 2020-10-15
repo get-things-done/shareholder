@@ -42,8 +42,8 @@ return [
 //Setting share's price
 app(\GetThingsDone\Shareholder\SharePrice::class)->update(1);
 
-//Retrive current share's price
-app(\GetThingsDone\Shareholder\SharePrice::class)->current(1);
+//Retrieve current share's price
+app(\GetThingsDone\Shareholder\SharePrice::class)->current();
 
 //Transfer shares between shareholders
 $shareholder = \GetThingsDone\Shareholder\Models\Shareholder::factory()->create();
@@ -51,8 +51,11 @@ $anotherShareholder = \GetThingsDone\Shareholder\Models\Shareholder::factory()->
 app(\GetThingsDone\Shareholder\ShareTranfer::class)
     ->from($shareholder)
     ->to($anotherShareholder)
-    ->transfer(1000);
+    ->quantity(1000)
+    ->transfer();
 
+//Retrieve shareholder's current quantity
+\GetThingsDone\Shareholder\SharePrice::of($shareholder)->current();
 ```
 
 ## Testing

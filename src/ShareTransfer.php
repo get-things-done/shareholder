@@ -7,54 +7,52 @@ use Illuminate\Support\Facades\DB;
 
 class ShareTransfer
 {
-    protected Shareholder $fromShareholder;
-    protected Shareholder $toShareholder;
-    protected int $value = 0;
+    protected Shareholder $from;
+    protected Shareholder $to;
+    protected int $quantity = 0;
     
-    public function __construct(Shareholder $fromShareholder, Shareholder $toShareholder, int $value = 0)
+    public function __construct(Shareholder $from, Shareholder $to, int $quantity = 0)
     {
-        $this->fromShareholder = $fromShareholder;
-        $this->toShareholder = $toShareholder;
-        $this->value = 0;
+        $this->from = $from;
+        $this->to = $to;
+        $this->quantity = 0;
     }
 
-    public function from(Shareholder $fromShareholder): self
+    public function from(Shareholder $from): self
     {
-        $this->fromShareholder = $fromShareholder;
+        $this->from = $from;
 
         return $this;
     }
 
-    public function to(Shareholder $toShareholder): self
+    public function to(Shareholder $to): self
     {
-        $this->toShareholder = $toShareholder;
+        $this->to = $to;
 
         return $this;
     }
 
-    public function setValue(int $value): self
+    public function quantity(int $quantity): self
     {
-        $this->value = $value;
+        $this->quantity = $quantity;
 
         return $this;
     }
-
-    public function excecute(): ShareTranferRecord
+    
+    public function transfer(): ShareTranferRecord
     {
         DB::beginTransaction();
 
         try {
-            $fromShareQuantityRecord = app(ShareQuantity::class)
-                                        ->of($this->fromShareholder)
-                                        ->decrease($this->value);
+            $fromRecord = ShareQuantity::of($this->from)
+                            ->decrease($this->quantity);
                                         
-            $toShareQuantityRecord = app(ShareQuantity::class)
-                                        ->of($this->toShareholder)
-                                        ->increase($this->value);
+            $toRecord = ShareQuantity::of($this->to)
+                            ->increase($this->quantity);
 
             $record = ShareTranferRecord::create([
-                'from_record_id' => $fromShareQuantityRecord->id,
-                'to_record_id' => $toShareQuantityRecord->id,
+                'from_record_id' => $fromRecord->id,
+                'to_record_id' => $toRecord->id,
             ]);
         } catch (\Exception $e) {
             DB::rollback();
@@ -63,10 +61,5 @@ class ShareTransfer
         }
 
         return $record;
-    }
-
-    public function tranfer($value): ShareTranferRecord
-    {
-        return $this->setValue($value)->excecute();
     }
 }

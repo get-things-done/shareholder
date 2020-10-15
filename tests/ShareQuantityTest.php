@@ -13,9 +13,7 @@ class ShareQuantityTest extends TestCase
     public function current_should_be_0_when_empty_records()
     {
         $shareholder = Shareholder::factory()->create();
-        $quantity = app(ShareQuantity::class)
-                        ->of($shareholder)
-                        ->current();
+        $quantity = ShareQuantity::of($shareholder)->current();
                         
         $this->assertEquals(0, $quantity);
     }
@@ -25,23 +23,17 @@ class ShareQuantityTest extends TestCase
     {
         $shareholder = Shareholder::factory()->create();
 
-        app(ShareQuantity::class)
-            ->of($shareholder)
-            ->increase(500);
+        ShareQuantity::of($shareholder)->increase(500);
         
-        $record = app(ShareQuantity::class)
-            ->of($shareholder)
-            ->increase(2000);
+        $record = ShareQuantity::of($shareholder)->increase(2000);
         
         $anotherShareholder = Shareholder::factory()->create();
-        app(ShareQuantity::class)
-            ->of($anotherShareholder)
-            ->increase(1000);
+        ShareQuantity::of($anotherShareholder)->increase(1000);
 
         $this->assertEquals(2500, $record->balance);
         $this->assertEquals(
             2500,
-            app(ShareQuantity::class)->of($shareholder)->current()
+            ShareQuantity::of($shareholder)->current()
         );
     }
 }

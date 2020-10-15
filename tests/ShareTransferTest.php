@@ -16,7 +16,8 @@ class ShareTransferTest extends TestCase
         $record = app(ShareTransfer::class)
             ->from($shareholder)
             ->to($anotherShareholder)
-            ->tranfer(1000);
+            ->quantity(1000)
+            ->transfer();
             
         $this->assertEquals(
             app(ShareQuantity::class)->of($shareholder)->current(),

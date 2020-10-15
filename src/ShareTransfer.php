@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class ShareTransfer
 {
-    protected ShareTranferRecord $model;
+    protected ShareTranferRecord $record;
     protected Shareholder $fromShareholder;
     protected Shareholder $toShareholder;
     protected int $value = 0;
     
-    public function __construct(ShareTranferRecord $model, Shareholder $fromShareholder, Shareholder $toShareholder)
+    public function __construct(ShareTranferRecord $record, Shareholder $fromShareholder, Shareholder $toShareholder)
     {
-        $this->model = $model;
+        $this->record = $record;
         $this->fromShareholder = $fromShareholder;
         $this->toShareholder = $toShareholder;
     }
@@ -51,13 +51,13 @@ class ShareTransfer
                                         ->of($this->toShareholder)
                                         ->increase($this->value);
 
-            $this->model = $this->model->create([
+            $this->record = $this->record->create([
                 'from_record_id' => $fromShareQuantityRecord->id,
                 'to_record_id' => $toShareQuantityRecord->id,
             ]);
         });
         
-        return $this->model;
+        return $this->record;
     }
 
     public function tranfer($value): ShareTranferRecord

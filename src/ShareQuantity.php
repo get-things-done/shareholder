@@ -37,17 +37,19 @@ class ShareQuantity
 
     public function increase(int $value): ShareQuantityRecord
     {
-        if($value < 0)
+        if ($value < 0) {
             throw new \InvalidArgumentException();
+        }
             
         return $this->create($value);
     }
 
     public function decrease(int $value): ShareQuantityRecord
     {
-        if($value < 0)
+        if ($value < 0) {
             throw new \InvalidArgumentException();
+        }
             
-        return $this->create( 0 - $value );
+        return $this->create(0 - $value);
     }
 }

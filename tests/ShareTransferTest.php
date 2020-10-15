@@ -1,10 +1,9 @@
 <?php
 namespace GetThingsDone\Shareholder\Tests;
 
+use GetThingsDone\Shareholder\Models\Shareholder;
 use GetThingsDone\Shareholder\ShareQuantity;
 use GetThingsDone\Shareholder\ShareTransfer;
-use GetThingsDone\Shareholder\Tests\TestCase;
-use GetThingsDone\Shareholder\Models\Shareholder;
 
 class ShareTransferTest extends TestCase
 {
@@ -20,12 +19,13 @@ class ShareTransferTest extends TestCase
             ->tranfer(1000);
             
         $this->assertEquals(
-            app(ShareQuantity::class)->of($shareholder)->current(), -1000
+            app(ShareQuantity::class)->of($shareholder)->current(),
+            -1000
         );
         
         $this->assertEquals(
-            app(ShareQuantity::class)->of($anotherShareholder)->current(), 1000
+            app(ShareQuantity::class)->of($anotherShareholder)->current(),
+            1000
         );
-        
     }
 }

@@ -37,7 +37,7 @@
     },
     "scripts": {
         "psalm": "sh vendor/bin/psalm",
-        "test": "sh vendor/bin/phpunit --colors=always",
+        "test": "sh vendor/bin/phpunit --colors=always --testdox",
         "test-coverage": "sh vendor/bin/phpunit --coverage-html coverage",
         "format": "sh vendor/bin/php-cs-fixer fix --allow-risky=yes"
     },

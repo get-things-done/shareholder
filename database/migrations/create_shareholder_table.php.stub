@@ -21,5 +21,12 @@ class CreateShareholderTable extends Migration
             $table->bigInteger('value');
             $table->timestamps();
         });
+
+        Schema::create('share_quantity_records', function (Blueprint $table) {
+            $table->id();   
+            $table->bigInteger('shareholder_id');     
+            $table->bigInteger('value');
+            $table->timestamps();
+        });
     }
 }

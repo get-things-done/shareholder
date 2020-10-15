@@ -13,11 +13,9 @@ class ShareQuantity
         $this->shareholder = $shareholder;
     }
 
-    public function of(Shareholder $shareholder): self
+    public static function of(Shareholder $shareholder): self
     {
-        $this->shareholder = $shareholder;
-
-        return $this;
+        return new self($shareholder);
     }
     
     public function current(): int

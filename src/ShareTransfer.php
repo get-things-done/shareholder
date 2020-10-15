@@ -7,16 +7,15 @@ use Illuminate\Support\Facades\DB;
 
 class ShareTransfer
 {
-    protected ShareTranferRecord $record;
     protected Shareholder $fromShareholder;
     protected Shareholder $toShareholder;
     protected int $value = 0;
     
-    public function __construct(ShareTranferRecord $record, Shareholder $fromShareholder, Shareholder $toShareholder)
+    public function __construct(Shareholder $fromShareholder, Shareholder $toShareholder, int $value = 0)
     {
-        $this->record = $record;
         $this->fromShareholder = $fromShareholder;
         $this->toShareholder = $toShareholder;
+        $this->value = 0;
     }
 
     public function from(Shareholder $fromShareholder): self
@@ -42,7 +41,9 @@ class ShareTransfer
 
     public function excecute(): ShareTranferRecord
     {
-        DB::transaction(function () {
+        DB::beginTransaction();
+
+        try {
             $fromShareQuantityRecord = app(ShareQuantity::class)
                                         ->of($this->fromShareholder)
                                         ->decrease($this->value);
@@ -51,13 +52,17 @@ class ShareTransfer
                                         ->of($this->toShareholder)
                                         ->increase($this->value);
 
-            $this->record = $this->record->create([
+            $record = ShareTranferRecord::create([
                 'from_record_id' => $fromShareQuantityRecord->id,
                 'to_record_id' => $toShareQuantityRecord->id,
             ]);
-        });
-        
-        return $this->record;
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            throw $e;
+        }
+
+        return $record;
     }
 
     public function tranfer($value): ShareTranferRecord

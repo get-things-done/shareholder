@@ -39,20 +39,20 @@ return [
 
 ``` php
 
-\\Setting share price
+//Setting share's price
 app(\GetThingsDone\Shareholder\SharePrice::class)->update(1);
 
-\\Retrive current share price
+//Retrive current share's price
 app(\GetThingsDone\Shareholder\SharePrice::class)->current(1);
 
-\\Transfer shares between shareholders
+//Transfer shares between shareholders
 $shareholder = \GetThingsDone\Shareholder\Models\Shareholder::factory()->create();
 $anotherShareholder = \GetThingsDone\Shareholder\Models\Shareholder::factory()->create();
 app(\GetThingsDone\Shareholder\ShareTranfer::class)
     ->from($shareholder)
     ->to($anotherShareholder)
     ->transfer(1000);
-    
+
 ```
 
 ## Testing

@@ -1,8 +1,8 @@
 <?php
 namespace GetThingsDone\Shareholder;
 
-use GetThingsDone\Shareholder\Models\Shareholder;
 use GetThingsDone\Shareholder\Tests\TestCase;
+use GetThingsDone\Shareholder\Models\Shareholder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShareQuantityTest extends TestCase
@@ -14,8 +14,8 @@ class ShareQuantityTest extends TestCase
     {
         $shareholder = Shareholder::factory()->create();
         $quantity = app(ShareQuantity::class)
-                        ->setShareholder($shareholder)
-                        ->getCurrentQuantity($shareholder);
+                        ->of($shareholder)
+                        ->current();
                         
         $this->assertEquals(0, $quantity);
     }
@@ -26,18 +26,22 @@ class ShareQuantityTest extends TestCase
         $shareholder = Shareholder::factory()->create();
 
         app(ShareQuantity::class)
-            ->setShareholder($shareholder)
-            ->createQuantityRecord(500);
+            ->of($shareholder)
+            ->increase(500);
         
         $record = app(ShareQuantity::class)
-            ->setShareholder($shareholder)
-            ->createQuantityRecord(2000);
+            ->of($shareholder)
+            ->increase(2000);
         
         $anotherShareholder = Shareholder::factory()->create();
         app(ShareQuantity::class)
-            ->setShareholder($anotherShareholder)
-            ->createQuantityRecord(1000);
+            ->of($anotherShareholder)
+            ->increase(1000);
 
         $this->assertEquals(2500, $record->balance);
+        $this->assertEquals(
+            2500, 
+            app(ShareQuantity::class)->of($shareholder)->current()
+        );
     }
 }

@@ -6,24 +6,21 @@ use GetThingsDone\Shareholder\Models\ShareQuantityRecord;
 
 class ShareQuantity
 {
-    protected ShareQuantityRecord $model;
-
     protected Shareholder $shareholder;
     
-    public function __construct(ShareQuantityRecord $model, Shareholder $shareholder)
+    public function __construct(Shareholder $shareholder)
     {
-        $this->model = $model;
         $this->shareholder = $shareholder;
     }
 
-    public function setShareholder(Shareholder $shareholder): self
+    public function of(Shareholder $shareholder): self
     {
         $this->shareholder = $shareholder;
 
         return $this;
     }
     
-    public function getCurrentQuantity(): int
+    public function current(): int
     {
         return $this->shareholder
                 ->share_quantity_records()
@@ -31,10 +28,26 @@ class ShareQuantity
                 ->balance ?? 0;
     }
 
-    public function createQuantityRecord(int $value): ShareQuantityRecord
+    public function create(int $value): ShareQuantityRecord
     {
         return $this->shareholder
                 ->share_quantity_records()
                 ->create(compact('value'));
+    }
+
+    public function increase(int $value): ShareQuantityRecord
+    {
+        if($value < 0)
+            throw new \InvalidArgumentException();
+            
+        return $this->create($value);
+    }
+
+    public function decrease(int $value): ShareQuantityRecord
+    {
+        if($value < 0)
+            throw new \InvalidArgumentException();
+            
+        return $this->create( 0 - $value );
     }
 }

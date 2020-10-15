@@ -2,8 +2,8 @@
 
 namespace GetThingsDone\Shareholder;
 
-use Illuminate\Support\ServiceProvider;
 use GetThingsDone\Shareholder\Commands\ShareholderCommand;
+use Illuminate\Support\ServiceProvider;
 
 class ShareholderServiceProvider extends ServiceProvider
 {

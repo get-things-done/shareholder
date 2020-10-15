@@ -1,0 +1,59 @@
+{
+    "name": "get-things-done/shareholder",
+    "description": "",
+    "keywords": [
+        "get-things-done",
+        "shareholder"
+    ],
+    "homepage": "https://github.com/get-things-done/shareholder",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cao Minh Duc",
+            "email": "caominhduc31081@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "illuminate/contracts": "^8.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.3",
+        "vimeo/psalm": "^3.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "GetThingsDone\\Shareholder\\": "src",
+            "GetThingsDone\\Shareholder\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GetThingsDone\\Shareholder\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm",
+        "test": "vendor/bin/phpunit --colors=always",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GetThingsDone\\Shareholder\\ShareholderServiceProvider"
+            ],
+            "aliases": {
+                "Shareholder": "GetThingsDone\\Shareholder\\ShareholderFacade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
